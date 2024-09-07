@@ -42,7 +42,7 @@ module "eks_cluster" {
       min_size                   = 2
       max_size                   = 5
       desired_size               = 2
-      instance_types             = ["t2.large"]
+      instance_types             = ["t2.medium"]
       capacity_type              = "ON_DEMAND"
       iam_role_name              = "${var.cluster_name}-node-role"
       iam_role_use_name_prefix   = false
@@ -95,60 +95,23 @@ module "eks_cluster" {
 
   enable_cluster_creator_admin_permissions = true
 
-  access_entries = {
-    cluster-admin1 = {
+  # access_entries = {
+  #   cluster-admin1 = {
 
-      kubernetes_groups = ["admins"]
-      principal_arn     = "arn:aws:iam::389029577690:user/kingsley"  #development_team.iam_role_arn
-      policy_associations = {
-        cluster-admin = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-            access_scope = {  
-              #namespaces = ["cluster"]
-              type       = "cluster"
+  #     kubernetes_groups = ["admins"]
+  #     principal_arn     = ""  #development_team.iam_role_arn
+  #     policy_associations = {
+  #       cluster-admin = {
+  #         policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  #           access_scope = {  
+  #             #namespaces = ["cluster"]
+  #             type       = "cluster"
 
-            }
-        }
-      }
+  #           }
+  #       }
+  #     }
 
-    },
-
-    cluster-admin2 = {
-
-      kubernetes_groups = ["admin"]
-      principal_arn     = "arn:aws:iam::389029577690:user/manager" #module.development_team.iam_role_arn
-      policy_associations = {
-        cluster-admin = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-            access_scope = {  
-              #namespaces = ["cluster"]
-              type       = "cluster"
-
-            }
-        }
-      }
-
-    },
-
-
-    # cluster-admin3 = {
-
-    #   kubernetes_groups = ["admin"]
-    #   principal_arn     = "arn:aws:iam::389029577690:user/kingsley" #module.development_team.iam_role_arn
-    #   policy_associations = {
-    #     cluster-admin = {
-    #       policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-    #         access_scope = {  
-    #           namespaces = ["default", "innov-namespace"]
-    #           type       = "namespace"
-
-    #         }
-    #     }
-    #   }
-
-    # },
-
-  }
+  #   }
 
 
   # manage_aws_auth_configmap = true
@@ -201,7 +164,7 @@ module "eks_blueprints_addons" {
   enable_ingress_nginx                = false
 
   # cluster autosclaing
-  # enable_cluster_autoscaler = true
+  enable_cluster_autoscaler = true
   enable_karpenter = true
 
   # cluster backup
