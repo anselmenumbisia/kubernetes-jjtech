@@ -1,56 +1,51 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: my-app
+  name: app1
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-        - name: nginx
-          image: nginx
-          ports:
-            - containerPort: 8080
-          volumeMounts:
-            - name: data-volume
-              mountPath: /opt # Mount path inside the container
-      volumes:
-        - name: data-volume
-          persistentVolumeClaim:
-            claimName: efs-pvc  # Name of your PersistentVolumeClaim
-
+  containers:
+  - name: app1
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo $(date -u) >> /data/out1.txt; sleep 5; done"]
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 100m
+        memory: 100Mi
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /data
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: efs-claim
 
 --- 
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: my-app2
+  name: app2
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: my-app2
-  template:
-    metadata:
-      labels:
-        app: my-app2
-    spec:
-      containers:
-        - name: nginx
-          image: nginx
-          ports:
-            - containerPort: 8080
-          volumeMounts:
-            - name: data-volume
-              mountPath: /log # Mount path inside the container
-      volumes:
-        - name: data-volume
-          persistentVolumeClaim:
-            claimName: efs-pvc  # Name of your PersistentVolumeClaim
+  containers:
+  - name: app2
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo $(date -u) >> /data/out2.txt; sleep 5; done"]
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 100m
+        memory: 100Mi
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /data
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: efs-claim

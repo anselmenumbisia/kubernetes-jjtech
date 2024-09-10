@@ -7,8 +7,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 1Gi
-  storageClassName: local-storage
+  storageClassName: ""
   #volumeName: example-pv

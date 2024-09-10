@@ -3,6 +3,8 @@
 
 ### Set up an Amazon EFS File System:
 
+NOTE: ALLOW INBOUND TRAFFIC ON MOUNT TARGET SECURITY GROUP ON PORT 2049
+
 - Ensure your eks cluster is up and running
 - Go to the AWS Management Console and navigate to the Amazon EFS service.
 Click on "Create file system" and configure the settings for your EFS file system, such as the **name** and the **vpc** in which your cluster is configred. Note down the File System ID (e.g., fs-12345678), as you will need it later.
@@ -42,3 +44,9 @@ Create a StorageClass, PersistentVolume, and PersistentVolumeClaim to define the
 ## https://kubernetes.io/docs/concepts/storage/volumes/#local # Volume config for hostpath
 ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/  # For kubernetes PErsistent volumes
 ## https://kubernetes.io/docs/concepts/storage/storage-classes/#local # For storage classes
+
+
+To delete pvc stuck in "Terminating state" run 
+```bash
+kubectl patch pvc PVC_NAME -p '{"metadata":{"finalizers": []}}' --type=merge
+```
