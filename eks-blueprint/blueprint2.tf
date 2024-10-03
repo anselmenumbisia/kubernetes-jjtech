@@ -89,6 +89,7 @@ module "eks_cluster" {
         {
           namespace = "innov-namespace"
         }
+
       ]
     }
   }
@@ -165,7 +166,7 @@ module "eks_blueprints_addons" {
 
   # cluster autosclaing
   enable_cluster_autoscaler = true
-  enable_karpenter = true
+  enable_karpenter          = true
 
   # cluster backup
   #enable_velero = true

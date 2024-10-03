@@ -14,7 +14,7 @@ variable "aws_region" {
 variable "cluster_version" {
   description = "The Version of Kubernetes to deploy"
   type        = string
-  default     = "1.25"
+  default     = "1.30"
 }
 
 variable "public_subnets" {

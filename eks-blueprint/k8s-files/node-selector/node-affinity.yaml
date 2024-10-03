@@ -23,10 +23,10 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-              - key: oss #<label-key>
+              - key: class #<label-key>
                 operator: In
                 values:
-                  - windows #<label-value>
+                  - prestigious #<label-value>
   containers:
     - name: nginx
       image: nginx

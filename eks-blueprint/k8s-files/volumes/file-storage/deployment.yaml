@@ -15,14 +15,13 @@ spec:
         memory: 100Mi
     volumeMounts:
     - name: persistent-storage
-      mountPath: /data
+      mountPath: /opt
   volumes:
   - name: persistent-storage
     persistentVolumeClaim:
       claimName: efs-claim
 
 --- 
-
 apiVersion: v1
 kind: Pod
 metadata:

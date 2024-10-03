@@ -19,7 +19,6 @@ spec:
           matchLabels:
             env: prod
             
-
 --- 
 
 # ingress on db-pod allowing traffic from app-pod
